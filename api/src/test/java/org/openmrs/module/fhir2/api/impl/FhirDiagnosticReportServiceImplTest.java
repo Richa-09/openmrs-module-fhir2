@@ -108,7 +108,7 @@ public class FhirDiagnosticReportServiceImplTest {
 		diagnosticReport.setId(UUID);
 		
 		when(dao.get(UUID)).thenReturn(fhirDiagnosticReport);
-		when(translator.toFhirResource(fhirDiagnosticReport)).thenReturn(diagnosticReport);
+		when(translator.toFhirResource(fhirDiagnosticReport, null)).thenReturn(diagnosticReport);
 		
 		DiagnosticReport result = service.get(UUID);
 		

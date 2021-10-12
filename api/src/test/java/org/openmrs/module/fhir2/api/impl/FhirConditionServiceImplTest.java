@@ -118,9 +118,10 @@ public class FhirConditionServiceImplTest {
 	@Test
 	public void getObsConditionByUuid_shouldReturnConditionByUuid() {
 		when(dao.get(OBS_UUID)).thenReturn(obsCondition);
-		when(translator.toFhirResource(obsCondition)).thenReturn(condition);
+		when(translator.toFhirResource(obsCondition, null)).thenReturn(condition);
 		
 		Condition result = fhirConditionService.get(OBS_UUID);
+		
 		assertThat(result, notNullValue());
 		assertThat(result.getId(), equalTo(OBS_UUID));
 	}

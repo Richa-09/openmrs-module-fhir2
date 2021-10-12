@@ -10,6 +10,7 @@
 package org.openmrs.module.fhir2.api.translators.impl;
 
 import static org.apache.commons.lang3.Validate.notNull;
+import static org.openmrs.module.fhir2.api.translators.impl.ReferenceHandlingTranslator.createLocationReferenceByUuid;
 
 import javax.annotation.Nonnull;
 
@@ -47,7 +48,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Setter(AccessLevel.PACKAGE)
-public class ObservationTranslatorImpl extends BaseReferenceHandlingTranslator implements ObservationTranslator {
+public class ObservationTranslatorImpl implements ObservationTranslator {
 	
 	@Autowired
 	private ObservationStatusTranslator observationStatusTranslator;
@@ -129,9 +130,10 @@ public class ObservationTranslatorImpl extends BaseReferenceHandlingTranslator i
 		}
 		
 		if (observation.getValueText() != null && StringUtils.equals(observation.getComment(), "org.openmrs.Location")) {
-			obs.addExtension(FhirConstants.OPENMRS_FHIR_EXT_OBS_LOCATION_VALUE, createLocationReferenceByUuid(observation.getValueText()));
+			obs.addExtension(FhirConstants.OPENMRS_FHIR_EXT_OBS_LOCATION_VALUE,
+			    createLocationReferenceByUuid(observation.getValueText()));
 		}
-
+		
 		obs.setIssued(observation.getDateCreated());
 		obs.setEffective(datetimeTranslator.toFhirResource(observation));
 		obs.addBasedOn(basedOnReferenceTranslator.toFhirResource(observation.getOrder()));
